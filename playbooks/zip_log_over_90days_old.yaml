@@ -1,0 +1,13 @@
+---
+- name: zip log over 90days 
+  hosts: localhost
+  become: true
+  become_method: sudo
+  user: centos
+  tasks: 
+  - name: run find command
+    shell: 'find /var/log  -type f  -name "*.log" -mtime +90  -exec gzip -v 9 {} +'
+
+  
+
+  
