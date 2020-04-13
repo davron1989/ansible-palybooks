@@ -1,0 +1,65 @@
+---
+- name: stops services
+  hosts: all     #DB
+  become: true
+  become_method: sudo
+  user: centos
+  ignore_errors: true   # dont stop if there is error
+  tasks: 
+  - name: stop r1soft on SentOS7
+    when: ansible_destribution == "CentOS" and ansible_destribution_major_version == "7"
+    systemd: 
+     name: sbm-agent
+     state: stopped
+    ignore_errors: true
+
+  - name: stop r1soft on SentOS6
+    when: ansible_destribution == "CentOS" and ansible_destribution_major_version == "6"
+    service: 
+     name: cdp-agent
+     state: stopped
+    ignore_errors: true
+
+
+  - name: stop filebeat
+    when: ansible_destribution == "CentOS" and ansible_destribution_major_version == "7"
+    systemd: 
+     name: filebeat
+     state: stopped
+    ignore_errors: true
+
+  - name: stop filebeat
+    when: ansible_destribution == "CentOS" and ansible_destribution_major_version == "6"
+    service: 
+     name: filebeat
+     state: stopped
+    ignore_errors: true
+
+  - name: stop NRPE
+    when: ansible_destribution == "CentOS" and ansible_destribution_major_version == "7"
+    systemd: 
+     name: nrpe
+     state: stopped
+    ignore_errors: true
+
+  - name: stop NRPE
+    when: ansible_destribution == "CentOS" and ansible_destribution_major_version == "6"
+    service: 
+     name: nrpe
+     state: stopped
+    ignore_errors: true
+
+  - name: stop mariadb
+    when: ansible_destribution == "CentOS" and ansible_destribution_major_version == "7"
+    systemd: 
+     name: mariadb
+     state: stopped
+    ignore_errors: true
+
+  - name: stop mariadb
+    when: ansible_destribution == "CentOS" and ansible_destribution_major_version == "6"
+    service: 
+     name: mariadb
+     state: stopped
+    ignore_errors: true
+  
