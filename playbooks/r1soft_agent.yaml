@@ -4,25 +4,29 @@
   become: true
   become_method: sudo
   user: centos
-  when: (ansible_destribution == "CentOS" and ansible_destribution_major_version == "6")
+
   tasks: 
   - name: create repo
+    when: (ansible_destribution == "CentOS" and ansible_destribution_major_version == "6")
     copy:
       src: r1soft.repo
       dest: /etc/yum.repo.d/
 
   - name: install agent
+    when: (ansible_destribution == "CentOS" and ansible_destribution_major_version == "6")
     package:
       name: serverbuckup-enterprise-agent
       state: installed
     notify: AGENT_RESTART
 
   - name: stop iptables
+    when: (ansible_destribution == "CentOS" and ansible_destribution_major_version == "6")
     service:
       name: iptables
       state: stopped
       enabled: false
   - name: get-key
+    when: (ansible_destribution == "CentOS" and ansible_destribution_major_version == "6")
     shell: "r1soft-setup --get-key http://35.177.171.90"
 
   handlers:
