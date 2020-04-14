@@ -1,0 +1,34 @@
+---
+- name: r1soft agent installation
+  hosts: all
+  become: true
+  become_method: sudo
+  user: centos
+  when: (ansible_destribution == "CentOS" and ansible_destribution_major_version == "6")
+  tasks: 
+  - name: create repo
+    copy:
+      src: r1soft.repo
+      dest: /etc/yum.repo.d/
+
+  - name: install agent
+    package:
+      name: serverbuckup-enterprise-agent
+      state: installed
+    notify: AGENT_RESTART
+
+  - name: stop iptables
+    service:
+      name: iptables
+      state: stopped
+      enabled: false
+  - name: get-key
+    shell: "r1soft-setup --get-key http://35.177.171.90"
+
+  handlers:
+    name: AGENT_RESTART
+    service:
+      name: cdp-agent
+      starte: restart
+      enabled: true
+
