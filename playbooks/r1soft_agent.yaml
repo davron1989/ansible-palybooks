@@ -14,7 +14,7 @@
   - name: install agent
     when: (ansible_distribution == "CentOS" and ansible_distribution_major_version == "6")
     package:
-      name: serverbuckup-enterprise-agent
+      name: serverbackup-enterprise-agent
       state: installed
     notify: AGENT_RESTART
 
